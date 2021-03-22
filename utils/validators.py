@@ -76,7 +76,7 @@ def validate_user_info(name,age,job,city,gender):
         },
         "job": {
             "type": "string",
-            "regex": "^[A-Z][a-zA-Z ]+",
+            "regex": "^[A-Z][a-zA-Z/ ]+",
             "maxlength": 45
         },
         "city": {
