@@ -76,13 +76,15 @@ class User(db.Model):
         return user
     
     @staticmethod
-    def get_like_user(name):
-        users=User.query.filter(User.name.ilike(f'%{name}%')).order_by(desc(User.id)).all()
+    def get_users_like(name):
+        users=User.query.filter(User.name.ilike(f'%{name}%'),User.active==True).order_by(desc(User.id)).all()
         return users
 
     @staticmethod
     def get_products_by_user(email):
         user=User.query.filter(User.email==email,User.active==True).first()
-        products=user.products.all()
-        return products
+        if user:
+            products=user.products.all()
+            return products
+        return False
 

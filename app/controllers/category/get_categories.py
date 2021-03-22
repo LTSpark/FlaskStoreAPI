@@ -1,5 +1,5 @@
 from flask import jsonify
-from app import ma
+
 from app.models.category import Category
 from app.models.schemas import CategorySchema
 

@@ -1,5 +1,5 @@
 from flask import jsonify
-from app import ma
+
 from app.models.user import User
 from app.models.schemas import UserSchema
 

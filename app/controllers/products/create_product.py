@@ -9,7 +9,6 @@ class CreateProduct:
         if request.is_json:
 
             data = request.get_json()
-
             owner_email=data['owner_email']
             owner=User.get_by_email(owner_email)
             category=Category.get_by_name(category_name)
@@ -26,6 +25,6 @@ class CreateProduct:
                 return new_product.save()
                 
             else:
-                return {"message": "owner  or category doesn't exist"}   
+                return {"message": "owner or category doesn't exist"}   
         else:
             return {"error": "The request payload is not in JSON format"}

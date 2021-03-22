@@ -41,9 +41,10 @@ class Category(db.Model):
         return categories
     
     @staticmethod
-    def get_subtotal_costs_category(Product):
+    def get_subtotal_costs_category(Product,User):
         subtotals=db.session.query(Category.id,Category.name,func.sum(Product.price*Product.units))\
-                    .join(Product).group_by(Category.id).all()
+                    .filter(User.active==True)\
+                    .join(Product).join(User).group_by(Category.id).all()
         return subtotals
     
     def get_by_name(name):

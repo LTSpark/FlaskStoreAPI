@@ -14,7 +14,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     info = ma.Nested(UserInfoSchema)
     class Meta:
         model=User()
-        exclude=("id","password")
+        exclude=("id","password","active")
 
 class CategorySchema(ma.SQLAlchemyAutoSchema):
     class Meta:

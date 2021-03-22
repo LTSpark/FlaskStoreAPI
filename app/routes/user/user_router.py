@@ -5,6 +5,7 @@ from . import user_bp
 from app.controllers.user.create_user import CreateUser
 from app.controllers.user.get_users import GetUsers
 from app.controllers.user.get_user import GetUser
+from app.controllers.user.get_users_like import GetUsersLike
 
 @user_bp.route("/user", methods=["POST"])
 def post_user():  
@@ -22,6 +23,11 @@ def get_user(user_name):
     get_user=GetUser()
     return get_user(user_name)
 
+@user_bp.route("/users/like/<user_name>", methods=["GET"])
+def get_users_like(user_name):
+    get_users_like=GetUsersLike()
+    return get_users_like(user_name)
+
 '''
 @user_bp.route("/users/email", methods=["GET"])
 def get_user_email():
@@ -38,18 +44,7 @@ def get_user_email():
         "email": f"{user.email}"
     }
 
-@user_bp.route("/users/like", methods=["GET"])
-def get_like_users():
 
-    name=request.json['name']
-    users=User.get_like_user(name)
-
-    if not users:
-        return {"msg": f"couldn't found {name}"}
-    print(users)
-    return { 
-        "name": f"printed in console"
-    }
 
 @user_bp.route("/users/paginate/<int:page_num>", methods=["GET"])
 def get_paginated_users(page_num):

@@ -105,6 +105,15 @@ def validate_category(name):
 
     return validation(name,schema,category)
 
+def validate_email(email):
+    schema={
+        "email":{
+            "type": "string",
+            "regex": '^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+\.[a-z.]+$'  
+        }
+    }
+    return validation(email,schema,email)
+
 def validation(display,schema,dictionary):
     v=Validator(schema)
     if v.validate(dictionary):

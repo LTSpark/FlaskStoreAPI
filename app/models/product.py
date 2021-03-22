@@ -36,11 +36,7 @@ class Product(db.Model):
             {"message": f"product {self.name} could not be created"}
     
     @staticmethod
-    def get_products_by_category(Category,category_name):
-        products=Product.query.filter(Category.name==category_name)\
-                    .join(Category)
+    def get_products_by_category(Category,User,category_name):
+        products=Product.query.filter(Category.name==category_name,User.active==True)\
+                    .join(User).join(Category)
         return products
-
- 
-    
-
