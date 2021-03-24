@@ -1,0 +1,17 @@
+get:
+  tags:
+    - User
+  description: Returns selected database user
+  parameters:
+    - name: user_name
+      in: path
+      description: Name of User
+      type: string
+      required: true
+  responses:
+    "200":
+      description: List of users
+      content:
+        application/json:
+          schema:
+            $ref: schema/user_definition.yaml      

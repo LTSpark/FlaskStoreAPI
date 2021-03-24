@@ -4,10 +4,9 @@ class CreateUser():
 
     def __call__(self,request):
 
+
         if request.is_json:
-
             data=request.get_json()
-
             age=data['age']
             job=data['job']
             city=data['city']
