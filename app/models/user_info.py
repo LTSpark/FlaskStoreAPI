@@ -11,4 +11,5 @@ class UserInfo(db.Model):
     job=db.Column(db.String,nullable=False)
     city=db.Column(db.String,nullable=False)
 
-    user_id=db.Column(db.Integer,db.ForeignKey('users.id'),unique=True)    
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id',ondelete='cascade'),unique=True)
+    user=db.relationship("User", back_populates="info")    

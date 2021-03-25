@@ -21,15 +21,15 @@ class User(db.Model):
 
     products=db.relationship(
         'Product',
-        backref='owner',
-        cascade='all, delete, delete-orphan',
+        back_populates="owner",
+        cascade="all, delete, delete-orphan",
         lazy='dynamic'
     )
 
     info=db.relationship(
         "UserInfo",
         uselist=False,
-        backref="user",
+        back_populates="user",
         cascade='all, delete, delete-orphan',
         lazy="select"
     )
@@ -42,7 +42,6 @@ class User(db.Model):
         if (validate_user(self.name,self.email,self.role,self.active,self.password) 
                 and validate_user_info(self.name,age,job,city,gender)):
             try:
-
                 db.session.add(self)
                 db.session.flush()
 
@@ -58,7 +57,6 @@ class User(db.Model):
                 db.session.add(new_user_info)
                 db.session.commit()
                 return True
-
             except IntegrityError as e:
                 print(e)
                 db.session.rollback()
@@ -68,8 +66,17 @@ class User(db.Model):
                 db.session.rollback()
                 return False
         else:
-            return False 
+            return False
     
+    def delete(self):
+        try:
+            db.session.delete(self)
+            db.session.commit()
+            return True
+        except IntegrityError as e:
+            print(e)
+            db.session.rollback()
+            return False  
     @staticmethod
     def get_by_email(email):
         user=User.query.filter(User.email==email,User.active==True).first()

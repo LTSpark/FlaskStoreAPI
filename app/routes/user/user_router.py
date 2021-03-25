@@ -6,46 +6,33 @@ from app.controllers.user.create_user import CreateUser
 from app.controllers.user.get_users import GetUsers
 from app.controllers.user.get_user import GetUser
 from app.controllers.user.get_users_like import GetUsersLike
+from app.controllers.user.delete_user import DeleteUser
 
 @user_bp.route("/user", methods=["POST"])
 def post_user():  
     create_user=CreateUser()
     return create_user(request)
 
-
 @user_bp.route("/users", methods=["GET"])
 def get_users():
-    get_users=GetUsers()
-    return get_users()
+    term=request.args.get(key="term",default=False)
+    if not term:
+        get_users=GetUsers()
+        return get_users()
+    else:
+        get_users_like=GetUsersLike()
+        return get_users_like(term)
 
-@user_bp.route("/user/<user_name>", methods=["GET"])
-def get_user(user_name):
-    get_user=GetUser()
-    return get_user(user_name)
-
-@user_bp.route("/users/like/<user_name>", methods=["GET"])
-def get_users_like(user_name):
-    get_users_like=GetUsersLike()
-    return get_users_like(user_name)
+@user_bp.route("/user/<user_email>", methods=["GET","DELETE"])
+def get_delete_user(user_email):
+    if request.method=="GET":
+        get_user=GetUser()
+        return get_user(user_email)
+    elif request.method=="DELETE":
+        delete_user=DeleteUser()
+        return delete_user(user_email)
 
 '''
-@user_bp.route("/users/email", methods=["GET"])
-def get_user_email():
-
-    email=request.json['email']
-    user=User.get_by_email(email)
-
-    if not user:
-        return {"msg": f"couldn't found {email}"}
-
-    return {
-        "id": f"{user.id}",
-        "name": f"{user.name}",
-        "email": f"{user.email}"
-    }
-
-
-
 @user_bp.route("/users/paginate/<int:page_num>", methods=["GET"])
 def get_paginated_users(page_num):
 

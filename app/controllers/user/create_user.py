@@ -1,9 +1,9 @@
 from app.models.user import User
+from utils.responses import response_message
 
 class CreateUser():
 
     def __call__(self,request):
-
 
         if request.is_json:
             data=request.get_json()
@@ -21,8 +21,8 @@ class CreateUser():
             )
 
             if new_user.save(age,job,city,gender):      
-                return {"message": f"user {new_user.name} has been created successfully."}
+                return response_message(True,f"user {new_user.name} has been created successfully.")
             else:
-                return {"message": f"user {new_user.name} could not be created"}
+                return response_message(False, f"user {new_user.name} could not be created")
         else:
-            return {"error": "The request payload is not in JSON format"}
+            return response_message(False, "The request payload is not in JSON format")

@@ -106,18 +106,20 @@ def validate_category(name):
     return validation(name,schema,category)
 
 def validate_email(email):
+
+    email_dictionary={"email": email}
     schema={
         "email":{
             "type": "string",
             "regex": '^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]+\.[a-z.]+$'  
         }
     }
-    return validation(email,schema,email)
+    return validation(email,schema,email_dictionary)
 
-def validation(display,schema,dictionary):
+def validation(identifier, schema, value):
     v=Validator(schema)
-    if v.validate(dictionary):
+    if v.validate(value):
         return True
     else:
-        print(f"{display} info errors: {v.errors}")
+        print(f"{identifier} info errors: {v.errors}")
         return False

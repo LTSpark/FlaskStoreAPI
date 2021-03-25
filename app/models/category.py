@@ -1,9 +1,10 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
-from utils.validators import validate_category
 from marshmallow import fields
 
 from app import db, ma
+from utils.validators import validate_category
+from utils.responses import response_message
 
 class Category(db.Model):
     
@@ -12,7 +13,12 @@ class Category(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String,nullable=False,unique=True)
 
-    products=db.relationship('Product',backref='category',cascade='all, delete, delete-orphan',lazy='dynamic')
+    products=db.relationship(
+        'Product',
+        back_populates='category',
+        cascade='all, delete, delete-orphan',
+        lazy='dynamic'
+    )
         
     def __repr__(self):
         return f'{self.id}) {self.name}'
@@ -47,6 +53,7 @@ class Category(db.Model):
                     .join(Product).join(User).group_by(Category.id).all()
         return subtotals
     
-    def get_by_name(name):
+    @staticmethod
+    def get_category_by_name(name):        
         category=Category.query.filter(Category.name==name).first()
         return category

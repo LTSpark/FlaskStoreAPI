@@ -2,6 +2,8 @@ from app.models.user import User
 from app.models.category import Category
 from app.models.product import Product
 
+from utils.responses import response_message
+
 class CreateProduct:
     
     def __call__(self,request,category_name):
@@ -10,21 +12,24 @@ class CreateProduct:
 
             data = request.get_json()
             owner_email=data['owner_email']
-            owner=User.get_by_email(owner_email)
-            category=Category.get_by_name(category_name)
+            product_name=data['name']
 
+            owner=User.get_by_email(owner_email)
+            category=Category.get_category_by_name(category_name)
+            
             if (owner and category):
-                new_product=Product(
-                    name=data['name'],
-                    price=data['price'],
-                    units=data['units'],
-                    owner=owner,
-                    category=category
-                )
-                
-                return new_product.save()
-                
+                if Product.is_product_on_category(Category,product_name,category_name):
+                    new_product=Product(
+                        name=product_name,
+                        price=data['price'],
+                        units=data['units'],
+                        owner=owner,
+                        category=category
+                    )          
+                    return new_product.save()
+                else:
+                    return response_message(False, f"Product {product_name} already exists on {category_name}")      
             else:
-                return {"message": "owner or category doesn't exist"}   
+                return response_message(False, "Owner or category doesn't exist")  
         else:
-            return {"error": "The request payload is not in JSON format"}
+            return response_message(False, "The request payload is not in JSON format")
