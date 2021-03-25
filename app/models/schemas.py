@@ -24,9 +24,3 @@ class ProductSchema(ma.SQLAlchemyAutoSchema):
     category=ma.Nested(CategorySchema)
     class Meta:
         model=Product
-
-class AllCategoryProductsSchema(ma.SQLAlchemyAutoSchema):   
-    products=ma.Nested(ProductSchema,many=True)
-    class Meta:
-        model=Category
-        exclude=("products.category",)
