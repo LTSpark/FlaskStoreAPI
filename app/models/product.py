@@ -48,7 +48,12 @@ class Product(db.Model):
         except IntegrityError as e:
             print(e)
             db.session.rollback()
-            return False  
+            return False
+    
+    @staticmethod
+    def get_products(User):
+        products=Product.query.filter(User.active==True).join(User).order_by(Product.id)          
+        return products
     
     @staticmethod
     def get_products_by_category(Category,User,category_name):
@@ -63,7 +68,7 @@ class Product(db.Model):
     within every category.
     '''
     @staticmethod
-    def get_product_on_category(Category, product_name, category_name):
+    def get_product_on_category(Category,product_name,category_name):
         products=Product.query.filter(Category.name==category_name,
                     Product.name==product_name)\
                     .join(Category).first()

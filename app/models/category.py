@@ -38,12 +38,7 @@ class Category(db.Model):
 
     @staticmethod
     def get_categories():
-        categories=Category.query.filter().order_by(Category.id).all()
-        return categories
-    
-    @staticmethod
-    def get_product_categories(Product):
-        categories=db.session.query(Category).join(Product).group_by(Category.id)
+        categories=Category.query.filter().order_by(Category.id)
         return categories
     
     @staticmethod

@@ -21,7 +21,7 @@ class CategorySchema(ma.SQLAlchemyAutoSchema):
 
 class ProductSchema(ma.SQLAlchemyAutoSchema):
     owner=ma.Nested(UserSchema(only=("name","email")))
-    category=ma.Nested(CategorySchema(only=("name",)))
+    category=ma.Nested(CategorySchema)
     class Meta:
         model=Product
 

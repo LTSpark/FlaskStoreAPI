@@ -14,10 +14,8 @@ paths:
     $ref: user/user.yaml
   /users:
     $ref: user/users.yaml
-  /user/{user_name}:
-    $ref: user/user_by_name.yaml
-  /users/like/{term}:
-    $ref: user/user_like.yaml
+  /user/{user_email}:
+    $ref: user/user_by_email.yaml
   /product/{category}:
     $ref: product/product.yaml
   /products:

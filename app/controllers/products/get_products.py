@@ -1,9 +1,8 @@
 from flask import jsonify
 
-from app.models.category import Category
 from app.models.product import Product
 from app.models.user import User
-from app.models.schemas import AllCategoryProductsSchema
+from app.models.schemas import ProductSchema
 
 '''
 We first get categories because we want to 
@@ -14,8 +13,8 @@ that's why we don't query product but category
 class GetProducts:
     def __call__(self):
 
-        query_categories=Category.get_product_categories(Product)
-        product_category_schema=AllCategoryProductsSchema(many=True)
-        products=product_category_schema.dump(query_categories)
+        query_products=Product.get_products(User)
+        products_schema=ProductSchema(many=True)
+        products=products_schema.dump(query_products)
 
         return jsonify({'Products': products})
